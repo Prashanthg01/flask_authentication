@@ -84,13 +84,23 @@ def insert_user(username, password):
 
 def get_user_by_username(username):
     cursor = g.db.execute('SELECT id, username, password FROM users WHERE username = ?', (username,))
-    columns = [column[0] for column in cursor.description]
-    return dict(zip(columns, cursor.fetchone()))
+    user_data = cursor.fetchone()
+
+    if user_data is not None:
+        columns = [column[0] for column in cursor.description]
+        return dict(zip(columns, user_data))
+    else:
+        return None
 
 def get_user_by_id(user_id):
     cursor = g.db.execute('SELECT id, username, password FROM users WHERE id = ?', (user_id,))
-    columns = [column[0] for column in cursor.description]
-    return dict(zip(columns, cursor.fetchone()))
+    user_data = cursor.fetchone()
+
+    if user_data is not None:
+        columns = [column[0] for column in cursor.description]
+        return dict(zip(columns, user_data))
+    else:
+        return None
 
 if __name__ == '__main__':
     with app.app_context():
